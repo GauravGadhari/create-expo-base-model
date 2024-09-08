@@ -6,8 +6,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/firebaseConfig";
 import UserShort from "@/components/helpers/UserShort";
 import { useNavigation } from "@react-navigation/native";
-import { Button } from "react-native-paper";
-import { useDynamicTheme } from "@/context";
 
 const IndexScreen = () => {
   const [userData, setUserData] = useState<any>(null);
