@@ -173,7 +173,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 20,
-    paddingHorizontal: 20,
   },
 });
 

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import { Appbar, Menu, Title } from "react-native-paper";
-import { useRouter } from "expo-router";
 import BottomNavigation from "@/components/light/BottomNavigation";
 import PagerView from "react-native-pager-view";
 import IndexScreen from ".";
@@ -24,13 +23,13 @@ export default function TabLayout() {
 
   const routes: Route[] = [
     { key: "home", title: "Home", icon: "chat-outline", focusedIcon: "chat" },
-    { key: "call", title: "Call", icon: "phone-outline", focusedIcon: "phone" },
     {
-      key: "story",
-      title: "Stories",
-      icon: "view-carousel-outline",
-      focusedIcon: "view-carousel",
+      key: "videos",
+      title: "Videos",
+      icon: "video-outline",
+      focusedIcon: "video",
     },
+    { key: "services", title: "Services", icon: "code-json", focusedIcon: "code-json" },
   ];
 
   // Handle menu actions
@@ -62,7 +61,7 @@ export default function TabLayout() {
       <Appbar.Header style={styles.appBar}>
         <Appbar.Action icon="menu" onPress={handleDrawerOpen} />
         <Appbar.Content
-          title="MTTAKBTKDJKTD"
+          title="MTTAKBTKDJTD"
           titleStyle={styles.title}
           style={styles.appBarContent}
         />
@@ -96,11 +95,11 @@ export default function TabLayout() {
         <View key="home">
           <IndexScreen />
         </View>
-        <View key="call">
-          <CallsScreen />
-        </View>
-        <View key="story">
+        <View key="videos">
           <StoriesScreen />
+        </View>
+        <View key="services">
+          <CallsScreen />
         </View>
       </PagerView>
 

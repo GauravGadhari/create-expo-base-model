@@ -1,100 +1,74 @@
-import React from "react";
-import { Button, List, Paragraph, Text, Title } from "react-native-paper";
-import { View } from "react-native";
-import { LightAlert, LightScrollView, LightSwitch } from "@/components/light";
-import { useBottomSheet, useDrawer, useJustDialog } from "@/context";
+import React, { useEffect, useState } from "react";
+import { ShopView } from "@/components/Shop";
+import { ScrollView, StyleSheet, ActivityIndicator } from "react-native";
+import { shopDetails } from "@/assets/data/ShopDetails";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/firebaseConfig";
+import UserShort from "@/components/helpers/UserShort";
+import { useNavigation } from "@react-navigation/native";
+import { Button } from "react-native-paper";
+import { useDynamicTheme } from "@/context";
 
 const IndexScreen = () => {
-  const [switchValue, setSwitchValue] = React.useState(false);
-  const { showJustDialog, handleDialogClose } = useJustDialog();
-  const { showBottomSheet } = useBottomSheet();
-  const { openDrawer } = useDrawer();
+  const [userData, setUserData] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const handleShowAnimatedDialog = () => {
-    showJustDialog(() => (
-      <LightAlert>
-        <LightAlert.Icon />
-        <LightAlert.Title text="Light" />
-        <LightAlert.Content>
-          <Paragraph>A billion dollar company of future but now starting, we will be listed on top of google, microsoft, meta, amazon as well as possible...</Paragraph>
-        </LightAlert.Content>
-        <LightAlert.Actions>
-          <LightAlert.DeclineButton
-            text="Cancel"
-            onPress={handleDialogClose}
-          />
-          <LightAlert.AcceptButton text="OK" onPress={handleDialogClose} />
-        </LightAlert.Actions>
-      </LightAlert>
-    ));
-  };
+  const navigation = useNavigation();
 
-  const handleShowBottomSheet = () => {
-    showBottomSheet(() => (
-      <>
-        <List.Item
-          title="Bottom Sheet Content"
-          description="This is the content inside the bottom sheet."
-          left={(props) => <List.Icon {...props} icon="information-outline" />}
-        />
-        <List.Item
-          title="Bottom Sheet Content"
-          description="This is the content inside the bottom sheet."
-          left={(props) => <List.Icon {...props} icon="information-outline" />}
-        />
-        <List.Item
-          title="Bottom Sheet Content"
-          description="This is the content inside the bottom sheet."
-          left={(props) => <List.Icon {...props} icon="information-outline" />}
-        />
-      </>
-    ));
-  };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
 
-  const handleOpenDrawer = () => {
-    openDrawer(
-      () => (
-        <View>
-          <Text>This is the drawer content!</Text>
-        </View>
-      ),
-      0.7 // Pass a custom drawerContentResize value here
-    );
-  };
+      if (user) {
+        try {
+          // Fetch user data from Firestore
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            setUserData(docSnap.data()); // Set user data from Firestore
+          } else {
+            console.log("No such document!");
+          }
+        } catch (error) {
+          console.error("Error fetching user data: ", error);
+        } finally {
+          setLoading(false); // Stop loading indicator
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator size="large" style={styles.loader} />;
+  }
+  
 
   return (
-    <LightScrollView>
-      <Title style={{ textAlign: "center", padding: 10, }}>
-        Me tulsi tere aangan ki bina tel ke diya jalake to dikha.
-      </Title>
-      <List.Item
-        title="Animated Switch"
-        left={(props) => <List.Icon {...props} icon="flash" />}
-        right={() => (
-          <LightSwitch
-            value={switchValue}
-            onValueChange={() => setSwitchValue(!switchValue)}
-          />
-        )}
-        onPress={() => setSwitchValue(!switchValue)}
-      />
-      <List.Item
-        title="Animated Dialog"
-        left={(props) => <List.Icon {...props} icon="flash" />}
-        onPress={handleShowAnimatedDialog}
-      />
-      <List.Item
-        title="Show Bottom Sheet"
-        left={(props) => <List.Icon {...props} icon="chevron-up" />}
-        onPress={handleShowBottomSheet}
-      />
-      <List.Item
-        title="Open Drawer with scale resize"
-        left={(props) => <List.Icon {...props} icon="gesture-tap-hold" />}
-        onPress={handleOpenDrawer}
-      />
-    </LightScrollView>
+    <ScrollView contentContainerStyle={styles.scrollView}>
+      {userData && (
+        <UserShort
+          user={userData}
+          onPress={() => navigation.navigate("CreateShop")}
+        />
+      )}
+      <ShopView shop={shopDetails.shop} />
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 1,
+    paddingBottom: 80,
+  },
+  loader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default IndexScreen;

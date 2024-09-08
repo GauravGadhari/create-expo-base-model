@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Congratulations",
-    "slug": "BaseModel",
+    "name": "MTTAKBTKDJTD",
+    "slug": "mttakbtkdjtd",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#F8F9FA"
     },
     "ios": {
       "supportsTablet": true,
@@ -24,14 +24,12 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.light.components",
+      "package": "com.light_computers.mttakbtkdjtd21",
       "permissions": [
         "android.permission.READ_CONTACTS",
         "android.permission.WRITE_CONTACTS",
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
-        "android.permission.READ_CONTACTS",
-        "android.permission.WRITE_CONTACTS",
         "android.permission.RECORD_AUDIO"
       ]
     },
@@ -44,6 +42,14 @@
       "expo-router",
       "expo-contacts",
       "expo-image-picker"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "036ba06e-0798-4e55-8346-992ba162cff2"
+      }
+    }
   }
 }
