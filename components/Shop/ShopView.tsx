@@ -9,6 +9,7 @@ import {
   Button,
   Divider,
   Tooltip,
+  TouchableRipple,
 } from "react-native-paper";
 import { useBottomSheet } from "@/context/AnimatedBottomSheet";
 import { useJustDialog } from "@/context/JustDialog";
@@ -66,8 +67,8 @@ const ShopView: React.FC<ShopViewProps> = ({ shop }) => {
 
   useEffect(() => {
     if (imageColors?.dominant) {
-      setDominantColor(imageColors.dominant);
-      setTheme(imageColors?.dominant);
+      setDominantColor(imageColors?.dominant);
+      // setTheme(imageColors?.dominant);
     } else {
       console.error("No dominant color found or imageColors is undefined");
     }
@@ -78,6 +79,10 @@ const ShopView: React.FC<ShopViewProps> = ({ shop }) => {
     : shop.quick_links.slice(0, 3);
 
   const toggleBio = () => setShowMoreBio(!showMoreBio);
+
+  const setDominantTheme = () => {
+    setTheme(dominantColor);
+  };
 
   const openLinkAlert = (link: string) => {
     showJustDialog(() => (
@@ -126,23 +131,25 @@ const ShopView: React.FC<ShopViewProps> = ({ shop }) => {
     ));
   };
 
-  console.log(dominantColor);
+  // console.log(dominantColor);
 
   return (
     <LinearGradient
       colors={[dominantColor, "transparent", "transparent"]} // Apply dominant color to gradient
-      start={{ x: 0, y: 0 }} // Start from the top
-      end={{ x: 0, y: 1 }}   // End at the bottom
+      start={{ x: 1, y: 0 }} // Start from the top
+      end={{ x: 1, y: 1 }} // End at the bottom
       style={styles.container}
     >
-      <Image
-        source={
-          shop.banner
-            ? { uri: shop.banner }
-            : require("@/assets/images/banner.jpg")
-        }
-        style={styles.ProfileImages}
-      />
+      <TouchableRipple onPress={setDominantTheme}>
+        <Image
+          source={
+            shop.banner
+              ? { uri: shop.banner }
+              : require("@/assets/images/banner.jpg")
+          }
+          style={styles.ProfileImages}
+        />
+      </TouchableRipple>
       <Title style={styles.Title}>{shop.title}</Title>
       <Paragraph
         style={styles.bioText}

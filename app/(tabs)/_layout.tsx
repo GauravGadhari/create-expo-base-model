@@ -4,9 +4,9 @@ import { Appbar, Menu, Title } from "react-native-paper";
 import BottomNavigation from "@/components/light/BottomNavigation";
 import PagerView from "react-native-pager-view";
 import IndexScreen from ".";
-import CallsScreen from "./calls";
-import StoriesScreen from "./stories";
 import { useDrawer, useDynamicTheme } from "@/context";
+import SecondScreen from "./two";
+import ThirdScreen from "./three";
 
 interface Route {
   key: string;
@@ -29,7 +29,7 @@ export default function TabLayout() {
       icon: "video-outline",
       focusedIcon: "video",
     },
-    { key: "services", title: "Services", icon: "code-json", focusedIcon: "code-json" },
+    { key: "dashboard", title: "You", icon: "view-dashboard-outline", focusedIcon: "view-dashboard" },
   ];
 
   // Handle menu actions
@@ -96,10 +96,10 @@ export default function TabLayout() {
           <IndexScreen />
         </View>
         <View key="videos">
-          <StoriesScreen />
+          <SecondScreen />
         </View>
-        <View key="services">
-          <CallsScreen />
+        <View key="dashboard">
+          <ThirdScreen />
         </View>
       </PagerView>
 

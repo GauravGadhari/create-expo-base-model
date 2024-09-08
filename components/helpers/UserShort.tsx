@@ -29,7 +29,7 @@ const UserShort: React.FC<UserShortProps> = ({ user, onPress }) => {
           <Avatar.Text {...props} size={40} label={user.firstName?.charAt(0) || "U"} />
         )
       }
-      right={(props) => <IconButton {...props} icon="chevron-right" />}
+      // right={(props) => <IconButton {...props} icon="chevron-right" />}
       onPress={onPress}
     />
   );
